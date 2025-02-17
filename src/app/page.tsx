@@ -64,7 +64,7 @@ function ArticleList() {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {paginatedArticles.map((article) => (
-          <article key={article.id} className="bg-white shadow rounded-lg overflow-hidden">
+          <article key={article.id} >
             <Link href={`/articles/${article.id}`}>
               <div className="relative aspect-video bg-gray-200">
                 <Image
