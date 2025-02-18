@@ -1,10 +1,19 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { NextConfig } from "next";
+
+/** 
+ * @type {import('next').NextConfig} 
+ * Next.jsの設定ファイル
+ */
+const nextConfig: NextConfig = {
   images: {
-    domains: ["images.microcms-assets.io"], // ✅ microCMS の画像ホストを許可
-    deviceSizes: [320, 420, 768, 1024, 1200], // ✅ 画像サイズの制限
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384], // ✅ 許可する画像サイズ
-    formats: ["image/avif", "image/webp"], // ✅ 画像フォーマットを指定（最適化）
+    remotePatterns: [
+      {
+        // 許可する外部画像のプロトコル
+        protocol: "https", 
+        // 許可する外部画像のホスト名
+        hostname: "images.microcms-assets.io",
+      },
+    ],
   },
 };
 
