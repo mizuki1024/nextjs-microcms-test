@@ -160,7 +160,7 @@ function generatePagination(
   currentPage: number,
   totalPages: number,
 ): (number | string)[] {
-  const delta = 2;
+  const delta = 1;
   const range: (number | string)[] = [];
   let lastPage: number | null = null;
 
