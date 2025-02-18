@@ -2,7 +2,7 @@ const API_URL = "https://gift-tech.microcms.io/api/v1/articles";
 
 /**
  * 記事一覧を取得する関数
- * 
+ *
  * @returns {Promise<{ contents: any[], totalCount: number, offset: number, limit: number }>}
  * - `contents`: 記事データの配列
  * - `totalCount`: 全記事数
@@ -34,7 +34,7 @@ export async function fetchArticles() {
 
 /**
  * 記事詳細を取得する関数
- * 
+ *
  * @param {string} id - 記事の ID
  * @returns {Promise<any | null>} 記事データ（存在しない場合は `null`）
  */

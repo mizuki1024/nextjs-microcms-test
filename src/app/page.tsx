@@ -58,13 +58,16 @@ function ArticleList() {
   }, [searchParams]);
 
   const totalPages = Math.ceil(articles.length / perPage);
-  const paginatedArticles = articles.slice((currentPage - 1) * perPage, currentPage * perPage);
+  const paginatedArticles = articles.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage,
+  );
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {paginatedArticles.map((article) => (
-          <article key={article.id} >
+          <article key={article.id}>
             <Link href={`/articles/${article.id}`}>
               <div className="relative aspect-video bg-gray-200">
                 <Image
@@ -77,7 +80,9 @@ function ArticleList() {
               </div>
               <div className="p-4">
                 <h2 className="text-lg font-semibold mb-2">{article.title}</h2>
-                <p className="text-sm text-gray-600 line-clamp-2">{article.description}</p>
+                <p className="text-sm text-gray-600 line-clamp-2">
+                  {article.description}
+                </p>
                 <time className="text-xs text-gray-500 block mt-2">
                   {article.publishedAt.split("T")[0]}（公開日時）
                 </time>
@@ -94,13 +99,21 @@ function ArticleList() {
 /**
  * ページネーションコンポーネント
  */
-function Pagination({ currentPage, totalPages }: { currentPage: number; totalPages: number }) {
+function Pagination({
+  currentPage,
+  totalPages,
+}: {
+  currentPage: number;
+  totalPages: number;
+}) {
   return (
     <div className="flex items-center justify-center gap-2 mt-12">
       <Link
         href={`?page=${Math.max(1, currentPage - 1)}`}
         className={`px-3 py-2 border rounded bg-black text-white ${
-          currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
+          currentPage === 1
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-gray-800"
         }`}
       >
         &lt;
@@ -108,7 +121,9 @@ function Pagination({ currentPage, totalPages }: { currentPage: number; totalPag
 
       {generatePagination(currentPage, totalPages).map((page, index) =>
         page === "..." ? (
-          <span key={index} className="px-3 py-2 text-gray-500">...</span>
+          <span key={index} className="px-3 py-2 text-gray-500">
+            ...
+          </span>
         ) : (
           <Link
             key={index}
@@ -121,13 +136,15 @@ function Pagination({ currentPage, totalPages }: { currentPage: number; totalPag
           >
             {page}
           </Link>
-        )
+        ),
       )}
 
       <Link
         href={`?page=${Math.min(totalPages, currentPage + 1)}`}
         className={`px-3 py-2 border rounded bg-black text-white ${
-          currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-800"
+          currentPage === totalPages
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-gray-800"
         }`}
       >
         &gt;
@@ -139,13 +156,20 @@ function Pagination({ currentPage, totalPages }: { currentPage: number; totalPag
 /**
  * ページネーションのロジック
  */
-function generatePagination(currentPage: number, totalPages: number): (number | string)[] {
+function generatePagination(
+  currentPage: number,
+  totalPages: number,
+): (number | string)[] {
   const delta = 2;
   const range: (number | string)[] = [];
   let lastPage: number | null = null;
 
   for (let i = 1; i <= totalPages; i++) {
-    if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+    if (
+      i === 1 ||
+      i === totalPages ||
+      (i >= currentPage - delta && i <= currentPage + delta)
+    ) {
       if (lastPage !== null && i - lastPage !== 1) {
         range.push("...");
       }

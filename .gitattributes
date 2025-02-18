@@ -1,2 +1,68 @@
-* text=auto
+# nextjs-microcms-test
+Next.js (App Router) + microCMS + Firebase を使用したフロントエンドコーディングテスト用のメディアサイト
+# **1. プロジェクトの概要**
+
+## ** プロジェクト名**
+**Next.js + microCMS 記事管理プロジェクト**
+
+## ** プロジェクトの目的**
+本プロジェクトは、**Next.js (App Router) + microCMS** を活用して、記事の一覧・詳細ページを表示するシステムを開発することを目的としています。  
+ページネーションや画像最適化の機能も実装し、スムーズなユーザー体験を提供します。
+
+## ** プロジェクト体制**
+- **開発メンバー:** 1 名
+- **フロントエンド担当:** [mizuki1024]
+
+## ** プロジェクト行程**
+| タスク | 期間 |
+|--------|------|
+| **開発開始日** | 2025/2/18 |
+| **リリース** | 2025/2/18 |
+
+# **2. 主要技術**
+
+| 言語・フレームワーク | バージョン |
+|--------------------|----------|
+| **Next.js** | 15.1.7 |
+| **TypeScript** | 5.7.3 |
+| **microCMS** | API ベース |
+| **Tailwind CSS** | 3.4.1 |
+| **Vercel** | デプロイ環境 |
+| **Node.js** | 18.x |
+
+
+# **3. ディレクトリ構造**
+./
+│── .next/               # Next.js のビルド・キャッシュフォルダ（自動生成）
+│── node_modules/        # 依存パッケージ（npm install で生成）
+│── public/              # 静的ファイル（画像・favicon など）
+│
+├── src/                 # ソースコードディレクトリ
+│   ├── app/             # Next.js のルーティング用フォルダ
+│   │   ├── articles/    # 記事詳細ページ用フォルダ
+│   │   │   ├── [id]/    # 記事の動的ルート（`[id]` はパラメータ）
+│   │   │   │   ├── page.tsx  # 記事詳細ページコンポーネント
+│   │   ├── lib/         # API 通信やデータ取得用関数
+│   │   │   ├── microcms.ts  # microCMS からデータを取得する関数
+│   │   ├── favicon.ico  # サイトアイコン
+│   │   ├── globals.css  # 全体のスタイル（CSS）
+│   │   ├── layout.tsx   # 全体のレイアウトコンポーネント
+│   │   ├── page.tsx     # 記事一覧ページのコンポーネント
+│
+├── .env                 # 環境変数（APIキーなどを管理）
+├── .gitattributes       # Git での改行コードなどの設定
+├── .gitignore           # Git で無視するファイルを指定
+├── eslint.config.mjs    # ESLint（コードチェックツール）の設定
+├── LICENSE              # ライセンス情報
+├── next-env.d.ts        # Next.js の型定義
+├── next.config.ts       # Next.js の設定ファイル
+├── package-lock.json    # 依存関係を固定するファイル
+├── package.json         # npm パッケージ管理ファイル
+├── postcss.config.mjs   # PostCSS の設定ファイル
+├── README.md            # プロジェクトの説明書
+├── tailwind.config.ts   # Tailwind CSS の設定
+└── tsconfig.json        # TypeScript の設定
+
+
+
 
