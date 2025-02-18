@@ -5,7 +5,9 @@ Next.js (App Router) + microCMS + Firebase を使用したフロントエンド�
 
 ![image](https://github.com/user-attachments/assets/1d14c548-7a12-4bda-b986-92bb87426a53)
 
+このプロジェクトは Vercel にデプロイされています。以下のリンクからアクセスできます。
 
+https://nextjs-microcms-test-66k1-7u2ir5v3b-mizuki1024s-projects.vercel.app/
 
 ##  プロジェクト名
 **Next.js + microCMS 記事管理プロジェクト**
@@ -126,13 +128,13 @@ git --version  # Git のバージョン確認
 GitHub からプロジェクトをローカルにクローンします。
 
 ```
-git clone https://github.com/ユーザー名/リポジトリ名.git
+https://github.com/mizuki1024/nextjs-microcms-test.git
 ```
 
 2 ディレクトリへ移動します。
 
 ```
-cd リポジトリ名
+cd nextjs-microcms-test
 ```
 
 3 必要なパッケージをインストール
