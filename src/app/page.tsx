@@ -1,7 +1,4 @@
-"use client";
-
-import { useEffect, useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { fetchArticles } from "./lib/microcms";
@@ -18,81 +15,70 @@ interface Article {
 }
 
 /**
- * 記事一覧ページ
+ * 記事一覧ページ (サーバーサイドでデータ取得)
  */
-export default function ArticlesPage() {
+export default async function ArticlesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  // searchParams を await で取得
+  const params = await searchParams;
+  const currentPage = Number(params.page ?? "1"); // デフォルトを "1" に
+
+  const perPage = 9;
+  const data = await fetchArticles();
+  const articles = data.contents;
+  const totalPages = Math.ceil(articles.length / perPage);
+
+  const paginatedArticles = articles.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-8 text-center">記事一覧</h1>
       <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
-        <ArticleList />
+        <ArticleList articles={paginatedArticles} />
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       </Suspense>
     </div>
   );
 }
 
 /**
- * 記事リストを表示するコンポーネント
+ * 記事リストを表示するコンポーネント (サーバー側)
  */
-function ArticleList() {
-  const searchParams = useSearchParams();
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const perPage = 9;
-
-  useEffect(() => {
-    const page = Number(searchParams.get("page")) || 1;
-    setCurrentPage(page);
-
-    async function loadArticles() {
-      try {
-        const data = await fetchArticles();
-        setArticles(data.contents);
-      } catch (error) {
-        console.error("記事の取得に失敗しました:", error);
-        setArticles([]);
-      }
-    }
-
-    loadArticles();
-  }, [searchParams]);
-
-  const totalPages = Math.ceil(articles.length / perPage);
-  const paginatedArticles = articles.slice(
-    (currentPage - 1) * perPage,
-    currentPage * perPage,
-  );
-
+function ArticleList({ articles }: { articles: Article[] }) {
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {paginatedArticles.map((article) => (
-          <article key={article.id}>
-            <Link href={`/articles/${article.id}`}>
-              <div className="relative aspect-video bg-gray-200">
-                <Image
-                  src={article.image?.url || "/placeholder.svg"}
-                  alt={article.title}
-                  width={400}
-                  height={200}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h2 className="text-lg font-semibold mb-2">{article.title}</h2>
-                <p className="text-sm text-gray-600 line-clamp-2">
-                  {article.description}
-                </p>
-                <time className="text-xs text-gray-500 block mt-2">
-                  {article.publishedAt.split("T")[0]}（公開日時）
-                </time>
-              </div>
-            </Link>
-          </article>
-        ))}
-      </div>
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {articles.map((article) => (
+        <article key={article.id}>
+          <Link href={`/articles/${article.id}`}>
+            <div className="relative aspect-video bg-gray-200">
+              <Image
+                src={article.image?.url || "/placeholder.svg"}
+                alt={article.title}
+                width={400}
+                height={200}
+                className="w-full h-auto object-cover"
+                priority={true} 
+              />
+            </div>
+            <div className="p-4">
+              <h2 className="text-lg font-semibold mb-2">{article.title}</h2>
+              <p className="text-sm text-gray-600 line-clamp-2">
+                {article.description}
+              </p>
+              <time className="text-xs text-gray-500 block mt-2">
+                {article.publishedAt.split("T")[0]}（公開日時）
+              </time>
+            </div>
+          </Link>
+        </article>
+      ))}
+    </div>
   );
 }
 
@@ -121,9 +107,7 @@ function Pagination({
 
       {generatePagination(currentPage, totalPages).map((page, index) =>
         page === "..." ? (
-          <span key={index} className="px-3 py-2 text-gray-500">
-            ...
-          </span>
+          <span key={index} className="px-3 py-2 text-gray-500">...</span>
         ) : (
           <Link
             key={index}
